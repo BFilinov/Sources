@@ -1,5 +1,6 @@
 import re
 
+
 # Задание 1 (простое)
 
 
@@ -29,6 +30,7 @@ def exec_task1():
     for q in a_questions:
         loop_question_input(q)
     print('OK')
+
 
 # Задание 2 (сложное)
 

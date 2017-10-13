@@ -36,6 +36,7 @@ def is_finished():
     a_filtered = [k for k, v in d_word_chars.items() if v[1]]
     return len(a_filtered) == len(d_word_chars)
 
+
 w_target_word = input('Введите слово, которое будете отгадывать:').lower()
 i_word_length = len(w_target_word)
 # Структура такая: {Индекс: [Символ, Угадали или нет]}
@@ -51,5 +52,3 @@ while not is_finished():
         print(get_guessed_string())
 
 print(get_guessed_string)
-
-

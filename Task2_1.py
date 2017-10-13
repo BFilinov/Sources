@@ -35,19 +35,19 @@ def loop_question_input(question):
 def exec_task1():
     # Массив вопросов.  Правильные ответы перечислены кортежами
     a_questions = [{
-            CONST_KEY_VALUE: 'В чем смысл жизни?',
-            CONST_KEY_ANSWER: ('42','Будда', '0'),
-            CONST_KEY_MODE: CONST_MODE_ALL
-        },
+        CONST_KEY_VALUE: 'В чем смысл жизни?',
+        CONST_KEY_ANSWER: ('42', 'Будда', '0'),
+        CONST_KEY_MODE: CONST_MODE_ALL
+    },
         {
             CONST_KEY_VALUE: 'Какого числа Гагарин полетел в космос?',
-            CONST_KEY_ANSWER: ('12.04', ),
-            CONST_KEY_MODE : CONST_MODE_ALL
+            CONST_KEY_ANSWER: ('12.04',),
+            CONST_KEY_MODE: CONST_MODE_ALL
         },
         {
             CONST_KEY_VALUE: 'Перечислите известные Вам реализации Python',
             CONST_KEY_ANSWER: ('CPython', 'PyPy', 'IronPython', 'Jython'),
-            CONST_KEY_MODE : CONST_MODE_ANY
+            CONST_KEY_MODE: CONST_MODE_ANY
         }]
     for q in a_questions:
         b_correct = loop_question_input(q)
@@ -55,5 +55,6 @@ def exec_task1():
             print('Ответ неправильный! Повторите ввод')
             b_correct = loop_question_input(q)
         print('Правильно!')
+
 
 exec_task1()

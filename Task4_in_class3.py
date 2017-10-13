@@ -6,13 +6,13 @@ import random
 
 
 def game():
-    game_field = [[None, None, None],[None, None, None],[None, None, None]]
+    game_field = [[None, None, None], [None, None, None], [None, None, None]]
     const_field_range = range(0, 3)
 
-    def apply_move(value, index=(0,0)):
+    def apply_move(value, index=(0, 0)):
         game_field[index[0]][index[1]] = value
 
-    def cell_is_empty(index=(0,0)):
+    def cell_is_empty(index=(0, 0)):
         return game_field[index[0]][index[1]] is None
 
     def is_field_complete():
@@ -43,7 +43,7 @@ def game():
                 return True
             b_win = False
         # Диагональный обход
-        if range_is_win(const_field_range, value) or range_is_win(reversed(const_field_range),value):
+        if range_is_win(const_field_range, value) or range_is_win(reversed(const_field_range), value):
             return True
         return False
 
@@ -66,7 +66,7 @@ def game():
             c_tup = parse_input()
         apply_move('X', c_tup)
         print('Ход компьютера:')
-        c_tup = (int(random.random()*100) % 3, int(random.random() * 10 + 1) % 3)
+        c_tup = (int(random.random() * 100) % 3, int(random.random() * 10 + 1) % 3)
         while not (cell_is_empty(c_tup)):
             c_tup = (int(random.random() * 100) % 3, int(random.random() * 10 + 1) % 3)
         apply_move('O', c_tup)
@@ -76,7 +76,7 @@ def game():
         print('Вы выиграли!')
     elif is_win('O'):
         print('Вы проиграли')
-    if input('Сыграть еще раз? (Нажмите z)')=='z':
+    if input('Сыграть еще раз? (Нажмите z)') == 'z':
         game()
 
 
