@@ -15,3 +15,5 @@ try:
 except ValueError as e:
     print('Unable to sort:', e.args)
 print(sort_int_array(14, 22, 55, 23, 51, 123))
+
+print('Zero')
