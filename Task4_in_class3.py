@@ -30,6 +30,7 @@ def game():
         # Горизонтальный обход
         b_win = False
         for i in const_field_range:
+            b_win = True
             for j in const_field_range:
                 b_win &= game_field[i][j] == value
             if b_win:
@@ -37,6 +38,7 @@ def game():
             b_win = False
         # Вертикальный обход
         for cell in const_field_range:
+            b_win = True
             for i in game_field:
                 b_win &= i[cell] == value
             if b_win:
@@ -71,11 +73,10 @@ def game():
             c_tup = (int(random.random() * 100) % 3, int(random.random() * 10 + 1) % 3)
         apply_move('O', c_tup)
         print_game_field()
-
-    if is_win('X'):
-        print('Вы выиграли!')
-    elif is_win('O'):
-        print('Вы проиграли')
+        if is_win('X'):
+            print('Вы выиграли!')
+        elif is_win('O'):
+            print('Вы проиграли')
     if input('Сыграть еще раз? (Нажмите z)') == 'z':
         game()
 
