@@ -25,7 +25,7 @@ class Square(Figure):
         return self.sides[0] ** 2
 
 
-class Rectange(Square):
+class Rectangle(Square):
     def __init__(self, *args):
         super().__init__(*args)
 
@@ -62,13 +62,13 @@ class FourAngle(Figure):
         return s
 
 
-class ObjectFactory():
+class ObjectFactory:
     @staticmethod
     def create_object(*args):
         if len(args) == 1:
             return Square(*args)
         elif len(args) == 2:
-            return Rectange(*args)
+            return Rectangle(*args)
         elif len(args) == 3:
             return Triangle(*args)
         elif len(args) == 4:

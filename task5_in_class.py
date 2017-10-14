@@ -34,7 +34,7 @@ class BigBlackCase(BagBase):
         super().__init__()
 
     def __str__(self):
-        return 'I AM IRON MAN!!! AND I HOLD {} OBJECTS OF ANY TYPE!!!'.format(len(self.items))
+        return 'I AM A BIG BLACK CASE!!! AND I HOLD {} OBJECTS OF ANY TYPE!!!'.format(len(self.items))
 
     def put_item(self, item):
         self.items.append(item)
@@ -69,4 +69,5 @@ print(avoska)
 black_case = BigBlackCase()
 black_case.put_item(apple)
 black_case.put_items(avoska.items)
+black_case.put_item(SomeProduct())
 print(black_case)
