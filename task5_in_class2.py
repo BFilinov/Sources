@@ -15,24 +15,33 @@ class Figure:
 
 
 class Square(Figure):
-    def __init__(self):
-        super().__init__(1)
+    def __init__(self, *args):
+        super().__init__(*args)
 
     def perimeter(self):
-        return super().reduce(lambda a, b: a + b, self.sides)
+        return self.sides[0] * 4
 
     def square(self):
-        return super().reduce(lambda a, b: a * b, self.sides)
+        return self.sides[0] ** 2
 
 
 class Rectange(Square):
-    def __init__(self):
-        super().__init__(2)
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def perimeter(self):
+        return (self.sides[0] + self.sides[1]) * 2
+
+    def square(self):
+        return self.sides[0] * self.sides[1]
 
 
 class Triangle(Figure):
-    def __init__(self):
-        super().__init__(3)
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def perimeter(self):
+        return super().reduce(lambda a, b: a + b, self.sides)
 
     def square(self):
         p = self.perimeter() / 2
@@ -41,8 +50,11 @@ class Triangle(Figure):
 
 
 class FourAngle(Figure):
-    def __init__(self):
-        super().__init__(4)
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    def perimeter(self):
+        return super().reduce(lambda a, b: a + b, self.sides)
 
     def square(self):
         p = self.perimeter() / 2
@@ -54,13 +66,13 @@ class ObjectFactory():
     @staticmethod
     def create_object(*args):
         if len(args) == 1:
-            return Square(args)
+            return Square(*args)
         elif len(args) == 2:
-            return Rectange(args)
+            return Rectange(*args)
         elif len(args) == 3:
-            return Triangle(args)
+            return Triangle(*args)
         elif len(args) == 4:
-            return FourAngle(args)
+            return FourAngle(*args)
         else:
             raise ValueError('Некорректное число аргументов: {}'.format(len(args)))
 
