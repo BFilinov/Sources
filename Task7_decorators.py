@@ -42,7 +42,21 @@ def switch(enabled=True):
     return func_inner_1
 
 
-@switch(enabled=True)
+# 4 name decorator
+def name_decorator(name):
+    def inner(func):
+        def wrapper(params):
+            print(name)
+            func(params)
+
+        return wrapper
+
+    return inner
+
+
+@name_decorator('S1')
+@name_decorator('S2')
+@name_decorator('S3')
 def test_function(string):
     if len(string) > 5:
         print('Hey I am banana')
