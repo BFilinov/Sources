@@ -7,16 +7,21 @@ def check(**kwargs):
                     continue
                 if not isinstance(p_value, p_type):
                     raise ValueError('ValueOf={} is supposed to be OfType={}'.format(p_key, p_type))
-            func(**kwargs_inner)
+            ret = func(**kwargs_inner)
+            ret_type = kwargs.get('hresult')
+            if not isinstance(ret, ret_type):
+                raise ValueError('FuncResult={} is supposed to be OfType={}'.format(ret, ret_type))
+            return ret
 
         return params_wrapper
 
     return func_wrapper
 
 
-@check(param3=(type(None), str, int, tuple))
+@check(param3=(type(None), str, int, tuple), hresult=int)
 def test_function(**kwargs):
     print(kwargs)
+    return 0
 
 
 test_function(param1='ABC', param2="""Lorem ipsum""", param3=None)
