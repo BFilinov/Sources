@@ -1,5 +1,5 @@
 import json, abc, functools, random
-from SeaBattle import Ship, Game
+from SeaBattle import Ship
 
 G_MAX_SHIP_SIZE_COUNTS = [
     (4, 1),
@@ -32,15 +32,15 @@ class AbstractPlayer(abc.ABC):
 
     def move(self, point, player):
         if point in self.hit_points:
-            return G_HIT_CODE_ERROR
+            return G_HIT_CODE_ERROR, point
         self.hit_points.append(point)
         for ship in player.ships:
             if ship.point_in_range(point):
                 ship.damage.append(point)
                 if ship.is_alive():
-                    return G_HIT_CODE_HIT
-                return G_HIT_CODE_DEAD
-        return G_HIT_CODE_MISS
+                    return G_HIT_CODE_HIT, point
+                return G_HIT_CODE_DEAD, point
+        return G_HIT_CODE_MISS, point
 
     def is_alive(self):
         alive_ships = list(map(lambda ship: ship.is_alive(), self.ships))
@@ -81,7 +81,7 @@ class AIPlayer(AbstractPlayer):
     def __init__(self):
         super().__init__('player2')
         self.rnd = random.randint
-        self.prev_hits = [(0, 0, False)]
+        self.prev_hits = []
         self.is_ai = True
 
     def initialize_player(self):
@@ -96,14 +96,11 @@ class AIPlayer(AbstractPlayer):
             point = (self.rnd(0, 8), self.rnd(0, 8))
         return point
 
-    def _get_point_from_prev_hit(self):
-        return self._get_empty_location()
-
     def move(self, point, player):
-        point = self._get_point_from_prev_hit()
-        enemy_dead = super().move(point, player)
-        if enemy_dead:
-            self.prev_hits = None
+        point = self._get_empty_location()
+        code, point = super().move(point, player)
+        if code == G_HIT_CODE_DEAD:
+            self.prev_hits = []
         else:
             self.prev_hits.append(point)
-        return enemy_dead
+        return code, point

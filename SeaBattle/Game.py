@@ -30,11 +30,10 @@ class Game(object):
             point = literal_eval(input('Ход игрок ' + self.next_move_player.player_name))
         else:
             point = None
-        move_code = self.next_move_player.move(point, target)
+        move_code, out_point = self.next_move_player.move(point, target)
+        print(out_point)
         move_code_str = Player.G_HIT_CODE[move_code]
         print(move_code_str)
         if move_code == Player.G_HIT_CODE_MISS:
             self.next_move_player = target
-        print(self.player_1)
-        print(self.player_2)
         self.loop_count += 1
