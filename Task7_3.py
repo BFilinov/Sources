@@ -1,3 +1,5 @@
+# Декоратор, проверающий типы входных и выходных параметров
+
 def check(**kwargs):
     def func_wrapper(func):
         def params_wrapper(**kwargs_inner):

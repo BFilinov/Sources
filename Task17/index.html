@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JSONPlaceholder testing</title>
+    <script type="application/javascript" src="jquery-3.2.1.min.js"></script>
+    <style>
+        .data-container {
+            margin: auto;
+            overflow: auto;
+            height: 25%;
+            max-height: 200pt;
+        }
+
+        .data-container ul {
+            list-style: none;
+        }
+
+        .data-container li {
+            margin-top: 5pt;
+            margin-bottom: 3pt;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<select id="cmbOption">
+    <option value="posts">posts</option>
+    <option value="todo">todo</option>
+    <option value="users">users</option>
+</select>
+<input type="text" id="txRequestParams">
+<button type="button" value="Try" id="btnTry">Try</button>
+<div class="data-container">
+    <ul class="data-requests"></ul>
+</div>
+</body>
+
+<script type="text/javascript">
+    "use strict";
+
+    $(function () {
+        var root = 'https://jsonplaceholder.typicode.com';
+        var dataContainer = $('.data-container .data-requests');
+        var parseData = function (data) {
+            if (data && data.length) {
+                for (var i = 0; i < data.length; i++) {
+                    var item = createItem(data[i]);
+                    dataContainer.append(item);
+                }
+            } else {
+                dataContainer.append(createItem(data));
+            }
+        };
+        var createItem = function (content) {
+            return $('<li>').html(createHtml(content));
+        }
+        var createHtml = function (item) {
+            var mk = '<table border="1">';
+            mk += '<tr>'
+            for (var p in item) {
+                mk += '<th>' + p + '</th>';
+            }
+            mk += '</tr><tr>'
+            for (var p in item) {
+                var value = item[p];
+                if (typeof value !== 'object') {
+                    mk += '<td>' + value + '</td>';
+                }
+                else {
+                    mk += '<td>' + createHtml(value) + '</td>';
+                }
+            }
+            mk += '</tr>'
+            mk += '</table>'
+            return mk;
+        }
+        var clearContainer = function () {
+            dataContainer.val('');
+            dataContainer.text('');
+        };
+        var performQuery = function () {
+            clearContainer();
+            var selectedOption = $('#cmbOption').val();
+            var requestParam = $('#txRequestParams').val();
+            var ajaxOptions = {
+                url: root + '/' + selectedOption + '/' + requestParam || '',
+                method: 'GET'
+            };
+            $.ajax(ajaxOptions).then(function (data) {
+                parseData(data);
+            });
+        };
+        $('#btnTry').click(performQuery);
+        performQuery();
+    });
+
+
+</script>
+</html>
