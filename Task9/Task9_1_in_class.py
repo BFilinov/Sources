@@ -8,6 +8,8 @@ url_pattern_finish = r'\/[^\s]+'
 
 try:
     fc = open(path)
+    # Skip headers
+    fc.readline()
     txt = fc.read()
     m1 = list(map(lambda x: datetime.datetime.fromtimestamp(int(x)).strftime('%Y-%m-%d %H:%M:%S'),
                   re.findall(data_pattern, txt)))
