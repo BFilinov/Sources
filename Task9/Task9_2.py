@@ -1,21 +1,30 @@
 import scrapy
-from scrapy import crawler, signals
-from scrapy.settings import Settings
-from twisted.internet import reactor
+from scrapy import crawler, linkextractors
+from time import sleep
+from datetime import datetime
 import re
 
 process = None
 numeric_re = r'\d+'
 
 
-class CommentCrawler(scrapy.Spider):
+def add_to_file(contents):
+    with open('spider_result.txt', 'a') as f:
+        f.write(contents)
+
+
+class CommentCrawler(scrapy.spiders.Spider):
     name = 'CommentCrawler_' + __name__
+    rules = [scrapy.spiders.Rule(linkextractors.LinkExtractor(allow='/'),callback='parse')]
 
     def parse(self, response):
-        print('hello')
+        add_to_file(CommentCrawler.start_urls)
+        add_to_file(response)
+        add_to_file('-----------END OF PAGE CRAWL---\n')
+        yield scrapy.Item()
 
 
-class RedditSpider(scrapy.Spider):
+class RedditSpider(scrapy.spiders.Spider):
     name = __name__
 
     def __init__(self):
@@ -25,7 +34,7 @@ class RedditSpider(scrapy.Spider):
 
     def parse(self, response):
         thread_buttons = response.css(self.btn_comment_selector)
-        print('---buttons-----')
+        add_to_file('---buttons-----')
         for item in thread_buttons:
             button_url = item.xpath('@href').extract()[0]
             button_comments = item.xpath('text()').extract()[0]
@@ -34,22 +43,24 @@ class RedditSpider(scrapy.Spider):
                 button_comments_count = int(button_comments_count.pop())
                 if button_comments_count >= 5:
                     self.get_thread_text(button_url)
-                    print('---------------------------\n')
+                    add_to_file('---------------------------\n')
+                    sleep(2)
         next_button = response.css(self.btn_next_selector).xpath('@href').extract()
-        print('---navigation----')
+        add_to_file('---navigation----')
         for item in next_button:
-            print(item)
+            add_to_file(item)
+        yield scrapy.Item()
 
     def get_thread_text(self, thread_url):
-        comment_crawler = CommentCrawler()
-        comment_crawler.start_urls = [thread_url, ]
-        process.crawl(comment_crawler)
-        process.start()
+        CommentCrawler.start_urls = [thread_url]
+        process.crawl(CommentCrawler)
 
 
 process = crawler.CrawlerProcess({
     'USER-AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
 })
 process.crawl(RedditSpider)
+add_to_file('-----STARTING PROCESS------------\n')
+add_to_file(str(datetime.now()))
+add_to_file('-----------\n')
 process.start()
-reactor.stop()

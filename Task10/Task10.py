@@ -82,5 +82,7 @@ def restart():
         else:
             return 'Некорректный метод', 401
 
+    return wrapper()
+
 
 app.run()

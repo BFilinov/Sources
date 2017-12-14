@@ -8,6 +8,9 @@
     <orderEntry type="module" module-name="Course6_todo" />
     <orderEntry type="module" module-name="tceh_python" />
   </component>
+  <component name="PackageRequirementsSettings">
+    <option name="requirementsPath" value="" />
+  </component>
   <component name="TestRunnerService">
     <option name="PROJECT_TEST_RUNNER" value="Unittests" />
   </component>
